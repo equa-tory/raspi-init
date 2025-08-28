@@ -172,7 +172,7 @@ setup_ssh() {
 setup_config() {
     CONF_TAR="$HOME_DIR/Downloads/raspi-init/conf.tar"
     if [ -f "$CONF_TAR" ]; then
-	tar -xvf "$CONF_TAR" -C "$HOME_DIR" --strip-components=1
+	tar -xf "$CONF_TAR" -C "$HOME_DIR"
         echo ".config folder restored from $CONF_TAR"
     else
         echo "conf.tar not found at $CONF_TAR"
