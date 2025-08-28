@@ -217,7 +217,6 @@ install_samba() {
 sudo apt purge -y samba
 sudo apt install -y samba
 
-su
 mkdir /etc/samba
 
 if [ ! -f /etc/samba/smb.conf ]; then
