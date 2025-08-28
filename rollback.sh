@@ -1,4 +1,10 @@
 #!/bin/bash
+
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# ! I DO NO RECOMMEND USING THIS SCRIPT !
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
 set -e
 
 USER="equa"
@@ -21,7 +27,7 @@ remove_ssh_keys() {
 }
 
 remove_swap() {
-    sudo sed -i "s/CONF_SWAPSIZE=.*/CONF_SWAPSIZE=100/" /etc/dphys-swapfile
+    sudo sed -i "s/CONF_SWAPSIZE=.*/CONF_SWAPSIZE=512/" /etc/dphys-swapfile
     sudo dphys-swapfile setup
     sudo dphys-swapfile swapon
     echo "Swap file reset to default"

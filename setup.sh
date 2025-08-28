@@ -82,6 +82,17 @@ setup_ssh() {
     echo "SSH keys installed and config updated."
 }
 
+# ===== CONFIG =====
+setup_config() {
+    CONF_TAR="$HOME_DIR/Downloads/conf.tar"
+    if [ -f "$CONF_TAR" ]; then
+        tar -xvf "$CONF_TAR" -C "$HOME_DIR"
+        echo ".config folder restored from $CONF_TAR"
+    else
+        echo "conf.tar not found at $CONF_TAR"
+    fi
+}
+
 # ===== SWAP =====
 setup_swap() {
     sudo sed -i "s/CONF_SWAPSIZE=.*/CONF_SWAPSIZE=1024/" /etc/dphys-swapfile
@@ -93,7 +104,6 @@ setup_swap() {
 # ===== FOLDERS =====
 setup_folders() {
     mkdir -p "$APPS_DIR" "$VENVS_DIR"
-    mkdir -p "$DESKTOP/Desktop"
     echo "Folders created."
 }
 
@@ -118,10 +128,25 @@ EOF
 }
 
 install_samba() {
-    sudo apt install -y samba
-    mkdir -p "$DESKTOP/share"
-    sudo chmod 777 "$DESKTOP/share" "$DESKTOP" "$HOME_DIR"
-    cat <<'EOF' | sudo tee -a /etc/samba/smb.conf >/dev/null
+sudo apt purge -y samba
+sudo apt install -y samba
+
+su
+mkdir /etc/samba
+
+if [ ! -f /etc/samba/smb.conf ]; then
+sudo tee /etc/samba/smb.conf > /dev/null <<'EOF'
+[global]
+   workgroup = WORKGROUP
+   server string = Samba Server
+   netbios name = raspberrypi
+   security = user
+   map to guest = Bad User
+   dns proxy = no
+EOF
+fi
+
+cat <<'EOF' | sudo tee -a /etc/samba/smb.conf >/dev/null
 [share]
 path = /home/equa/Desktop/share
 guest ok = yes
@@ -129,6 +154,9 @@ read only = no
 force user = equa
 force group = equa
 EOF
+
+sudo systemctl restart smbd
+
     echo "Samba installed and share configured."
 }
 
@@ -150,6 +178,7 @@ EOF
 # ===== MAIN =====
 add_to_bashrc
 setup_ssh
+setup_config
 setup_swap
 setup_folders
 install_htop
