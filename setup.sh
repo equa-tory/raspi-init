@@ -172,7 +172,7 @@ setup_ssh() {
 setup_config() {
     CONF_TAR="$HOME_DIR/Downloads/raspi-init/conf.tar"
     if [ -f "$CONF_TAR" ]; then
-        tar -xvf "$CONF_TAR" -C "$HOME_DIR"
+	tar -xvf "$CONF_TAR" -C "$HOME_DIR" --strip-components=1
         echo ".config folder restored from $CONF_TAR"
     else
         echo "conf.tar not found at $CONF_TAR"
@@ -190,6 +190,7 @@ setup_swap() {
 # ===== FOLDERS =====
 setup_folders() {
     mkdir -p "$APPS_DIR" "$VENVS_DIR"
+    chown equa:equa $APPS_DIR $VENVS_DIR
     echo "Folders created."
 }
 
@@ -216,6 +217,9 @@ EOF
 install_samba() {
 sudo apt purge -y samba
 sudo apt install -y samba
+
+mkdir -p "$DESKTOP/share"
+chown equa:equa $DESKTOP/share
 
 mkdir /etc/samba
 
