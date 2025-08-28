@@ -191,6 +191,7 @@ setup_swap() {
 setup_folders() {
     mkdir -p "$APPS_DIR" "$VENVS_DIR"
     chown equa:equa $APPS_DIR $VENVS_DIR
+    chmod 777 $APPS_DIR $VENVS_DIR
     echo "Folders created."
 }
 
