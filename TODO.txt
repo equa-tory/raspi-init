@@ -1,0 +1,24 @@
+## Move ssh-keys
+```
+sudo curl https://github.com/equa-tory.keys >> ~/.ssh/authorized_keys
+
+sudo sed -i 's/^#\?PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+sudo systemctl restart sshd
+```
+
+## (HAND) Graphic Engine
+```
+sudo raspi-config
+6 Advanced -> A6 Wayland -> W1 X11
+```
+
+## (HAND) Onscreen keyboard
+```
+sudo raspi-config
+2 Display Options -> D6 Onscreen Keyboard -> S3 Always Off
+```
+
+===
+~:
+
+- setup apps in top bar via `menu -> preferencnes -> main menu editor` then `rmb on top-panel -> app launch panel settings`
