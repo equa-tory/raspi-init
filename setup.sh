@@ -11,12 +11,25 @@ DESKTOP="$HOME_DIR/Desktop"
 
 # ===== FUNCTIONS =====
 add_to_bashrc() {
-    cat >> "$BASHRC" <<'EOF'
-# ===== FUNCTIONS =====
-mdd() { mkdir -p "$1" && cd "$1"; }
-drn() { image="$1"; shift; name="${image%%:*}"; docker run -d --name "$name" "$image" "$@"; }
-con() { nvim "$HOME/.config/$1"; }
+cat >> /home/equa/.bashrc <<'EOF'
+## .bashrc
+# Functions
+mdd() {
+    mkdir -p "$1" && cd "$1"
+}
 
+drn() {
+  image="$1"
+  shift
+  name="${image%%:*}"  # убираем тег (:latest)
+  docker run -d --name "$name" "$image" "$@"
+}
+
+con() {
+  nvim "$HOME/.config/$1"
+}
+
+# alias ls='ls -la'
 alias g='grep'
 alias l='ls'
 alias ll='ls -lAh'
@@ -26,6 +39,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias h='history -10'
 alias cls='clear'
+alias cl='clear'
 alias c='clear'
 alias r='source ~/.zshrc'
 alias py='python3'
@@ -46,7 +60,7 @@ alias gb='git branch'
 alias gco='git checkout'
 alias gcm='git checkout main'
 alias gcb='git checkout -b'
-alias gundo='git reset --soft HEAD~1'
+alias gundo='git reset --soft HEAD~1'    # отмена последнего коммита, оставляя изменения
 alias ip='curl ifconfig.me'
 alias desk='cd ~/Desktop'
 alias dl='cd ~/Downloads'
@@ -63,14 +77,86 @@ alias pfree='pip freeze > requirements.txt'
 alias preq='pip install -r requirements.txt'
 alias n='nano'
 alias s='sudo'
+
 alias co='con'
+
 alias ff='clear; fastfetch'
+
 alias tren='trans -b :en'
 alias trru='trans -b :ru'
-alias o='open'
-alias zrc='nvim ~/.zshrc'
 
+alias o='open'
+
+alias zrc='nvim ~/.zshrc'
+alias hypr='nvim ~/.config/hypr/hyprpaper.conf'
+alias hyan='nvim ~/.config/hypr/conf/animation.conf'
+alias hyap='nvim ~/.config/hypr/conf/appearance.conf'
+alias hyau='nvim ~/.config/hypr/conf/autostart.conf'
+alias hyi='nvim ~/.config/hypr/conf/input.conf'
+alias hyk='nvim ~/.config/hypr/conf/keybinding.conf'
+alias hyp='nvim ~/.config/hypr/conf/programs.conf'
+alias hys='nvim ~/.config/hypr/conf/startworkspaces.conf'
+alias hym='hyprctl monitors'
+alias hyc='hyprctl clients'
+
+# Pacman
+alias pi='pacman -Qi'                     # инфо о пакете
+alias ps='sudo pacman -S'
+alias pr='sudo pacman -Rns'
+alias pu='sudo pacman -Syu'
+alias puc='sudo pacman -Syu --noconfirm'   # обновить без вопросов
+alias pq='pacman -Qe'                     # только явно установленные
+
+# yay 
+alias yi='yay -Qi'
+alias ys='yay -S'
+alias yr='yay -Rns'
+alias yu='yay -Syu'
+alias yss='yay -Ss'
+alias yq='yay -Qe'
+
+# docker
+alias d='docker'
+alias ds='docker start'
+alias dp='docker stop'
+alias dr='drn'
+alias dc='docker container'
+alias di='docker images'
+alias dps='docker ps -a'
+alias dcu='docker compose up'
+alias dcd='docker compose down'
+alias dcb='docker compose build'
+alias dexec='docker exec -it'
+alias drm='docker rm -f'
+alias drmi='docker rmi'
+alias dlogs='docker logs -f'
+alias dbash='docker exec -it $(docker ps -q | head -n1) bash' # bash в первом контейнере
+
+# systemctl
+alias si='sudo systemctl status'
+alias ss='sudo systemctl start'
+alias se='sudo systemctl enable'
+alias sd='sudo systemctl disable'
+
+# wireguard
+alias wu='wg-quick up wg0'
+alias wd='wg-quick down wg0'
+alias wr='wg-quick down wg0 && wg-quick up wg0'
+alias wg='sudo wg'
+alias wgconf='sudo nvim /etc/wireguard/wg0.conf'
+alias wgc='sudo nvim /etc/wireguard/wg0.conf'
+alias wc='sudo nvim /etc/wireguard/wg0.conf'
+
+alias dd='DISPLAY=:0'
+alias term='lxterminal -e'
+alias tt='lxterminal -e'
+
+# Run on start
+c
+export DISPLAY=:0
 EOF
+
+sudo cp /home/equa/.bashrc /root/.bashrc
     echo "Aliases and functions added to $BASHRC"
 }
 
@@ -84,7 +170,7 @@ setup_ssh() {
 
 # ===== CONFIG =====
 setup_config() {
-    CONF_TAR="$HOME_DIR/Downloads/conf.tar"
+    CONF_TAR="$HOME_DIR/Downloads/raspi-init/conf.tar"
     if [ -f "$CONF_TAR" ]; then
         tar -xvf "$CONF_TAR" -C "$HOME_DIR"
         echo ".config folder restored from $CONF_TAR"
