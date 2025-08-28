@@ -218,9 +218,6 @@ install_samba() {
 sudo apt purge -y samba
 sudo apt install -y samba
 
-mkdir -p "$DESKTOP/share"
-chown equa:equa $DESKTOP/share
-
 mkdir /etc/samba
 
 if [ ! -f /etc/samba/smb.conf ]; then
@@ -244,7 +241,12 @@ force user = equa
 force group = equa
 EOF
 
+mkdir -p /home/equa/Desktop/share
+chown equa:equa /home/equa/Desktop/share
+chmod 755 /home/equa/Desktop/share
+
 sudo systemctl restart smbd
+sudo systemctl restart nmbd
 
     echo "Samba installed and share configured."
 }
