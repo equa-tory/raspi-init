@@ -1,0 +1,51 @@
+Meerk40t
+
+## 1. Установка зависимостей для wxPython
+
+Raise swap file (from 500mb to 1024mb):
+```bash
+nano /etc/dphys-swapfile 
+```
+
+Venv:
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+
+На Raspberry Pi OS (Debian Bookworm) поставь всё это:
+```bash
+sudo apt update
+sudo apt install \
+    python3-dev python3-pip python3-setuptools python3-wheel \
+    libgtk-3-dev libjpeg-dev libtiff-dev libpng-dev \
+    libsm-dev libwebkit2gtk-4.0-dev libxtst-dev \
+    libnotify-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
+    libavcodec-dev libavformat-dev libswscale-dev \
+    build-essential
+```
+
+📌 Без `libwebkit2gtk-4.0-dev` и `libnotify-dev` wxPython GUI часть не соберётся.
+
+## 2. Установка wxPython
+
+Вместо старых версий бери свежую, подходящую к твоему Python. Например, для Python 3.11 (будет долго ~30 минут):
+```bash
+pip install -U pip
+pip install -U wxPython
+```
+
+## 3. Установка Meerk40t
+```bash
+pip install meerk40t
+```
+
+PIL:
+```bash
+pip install Pillow
+```
+
+Запуск:
+```bash
+meerk40t
+```

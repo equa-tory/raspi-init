@@ -177,6 +177,8 @@ setup_config() {
     else
         echo "conf.tar not found at $CONF_TAR"
     fi
+
+    chown -R equa:equa "$HOME_DIR/.config"
 }
 
 # ===== SWAP =====
@@ -267,6 +269,35 @@ EOF
     echo "bCNC installed and shortcut created."
 }
 
+install_meerk() {
+    python3 -m venv "$VENVS_DIR/venv-meerk"
+    source "$VENVS_DIR/venv-meerk/bin/activate"
+
+    sudo apt install \
+    python3-dev python3-pip python3-setuptools python3-wheel \
+    libgtk-3-dev libjpeg-dev libtiff-dev libpng-dev \
+    libsm-dev libwebkit2gtk-4.0-dev libxtst-dev \
+    libnotify-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
+    libavcodec-dev libavformat-dev libswscale-dev \
+    build-essential
+
+    # pip install -U wxPython # TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO !
+    pip install meerk40t Pillow
+
+    #cd /home/equa/apps
+    #git clone https://github.com/meerk40t/meerk40t
+    #cd meerk40t
+
+    cat >> "$DESKTOP/meerk40t.sh" << 'EOF'
+#!/bin/bash
+source /home/equa/venvs/venv-meerk/bin/activate
+cd /home/equa/apps/meerk40t
+meerk40t
+EOF
+    sudo chmod +x "$DESKTOP/meerk40t.sh"
+    echo "meerk40t installed and shortcut created."
+}
+
 # ===== MAIN =====
 add_to_bashrc
 setup_ssh
@@ -277,6 +308,7 @@ install_htop
 install_inkscape
 install_samba
 install_bcnc
+install_meerk
 
 echo "All done. Rebooting!"
 sudo reboot
