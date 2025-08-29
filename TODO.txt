@@ -10,7 +10,37 @@ sudo raspi-config
 2 Display Options -> D6 Onscreen Keyboard -> S3 Always Off
 ```
 
+## (HAND) Localization to russina
+```
+Open Raspi Start menu -> Preferences -> Raspberry pi configuration -> Localization -> change first option to `ru` and last one to `UTF-8`
+```
+
 ===
 ~:
 
 - setup apps in top bar via `menu -> preferencnes -> main menu editor` then `rmb on top-panel -> app launch panel settings`
+
+
+========================
+RU:
+## (HAND) Графический движок
+```
+sudo raspi-config
+6 Дополнительно -> A6 Wayland -> W1 X11
+```
+
+## (HAND) Экранная клавиатура
+```
+sudo raspi-config
+2 Параметры отображения -> D6 Экранная клавиатура -> S3 Всегда выключен
+```
+
+## (HAND) Локализация на русский язык
+```
+Откройте меню Raspberry Pi «Пуск» -> «Настройки» -> «Конфигурация Raspberry Pi» -> «Локализация» -> измените первый параметр на `ru`, а последний на `UTF-8`
+```
+
+===
+~:
+
+- настройте приложения в верхней панели через «меню» -> «предпочтения» -> «редактор главного меню», затем нажмите «правую кнопку мыши» на верхней панели -> «настройки панели запуска приложений»
