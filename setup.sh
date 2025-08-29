@@ -170,15 +170,19 @@ setup_ssh() {
 
 # ===== CONFIG =====
 setup_config() {
-    CONF_TAR="$HOME_DIR/Downloads/raspi-init/conf.tar"
-    if [ -f "$CONF_TAR" ]; then
-	tar -xf "$CONF_TAR" -C "$HOME_DIR"
-        echo ".config folder restored from $CONF_TAR"
-    else
-        echo "conf.tar not found at $CONF_TAR"
-    fi
+    #CONF_TAR="$HOME_DIR/Downloads/raspi-init/conf.tar"
+    #if [ -f "$CONF_TAR" ]; then
+#	tar -xf "$CONF_TAR" -C "$HOME_DIR"
+    #    echo ".config folder restored from $CONF_TAR"
+    #else
+    #    echo "conf.tar not found at $CONF_TAR"
+    #fi
 
-    chown -R equa:equa "$HOME_DIR/.config"
+    tar -zxf conf.tar.gz
+    cp -r .config/* /home/equa/.config/
+
+    chown -R equa:equa /home/equa/.config
+    chmod 777 -R /home/equa/.config
 }
 
 # ===== SWAP =====
@@ -282,6 +286,10 @@ install_meerk() {
     build-essential
 
     cd /home/equa/Downloads/raspi-init
+    sudo apt install -y git-lfs
+    git lfs install
+    git lfs pull
+
     tar -zxf wheels.tar.gz
     pip install wxPython --no-index --find-links=./wheels
     pip install meerk40t Pillow
