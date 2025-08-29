@@ -225,7 +225,7 @@ install_samba() {
 sudo apt purge -y samba
 sudo apt install -y samba
 
-mkdir /etc/samba
+mkdir -p /etc/samba
 
 if [ ! -f /etc/samba/smb.conf ]; then
 sudo tee /etc/samba/smb.conf > /dev/null <<'EOF'
@@ -259,7 +259,7 @@ sudo systemctl restart nmbd
 }
 
 install_bcnc() {
-    sudo apt update
+    sudo apt update -y
     sudo apt install -y python3 python3-tk python3-pip
     python3 -m venv "$VENVS_DIR/venv-bcnc"
     source "$VENVS_DIR/venv-bcnc/bin/activate"
@@ -277,7 +277,7 @@ install_meerk() {
     python3 -m venv "$VENVS_DIR/venv-meerk"
     source "$VENVS_DIR/venv-meerk/bin/activate"
 
-    sudo apt install \
+    sudo apt install -y \
     python3-dev python3-pip python3-setuptools python3-wheel \
     libgtk-3-dev libjpeg-dev libtiff-dev libpng-dev \
     libsm-dev libwebkit2gtk-4.0-dev libxtst-dev \
