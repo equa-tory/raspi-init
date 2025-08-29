@@ -281,12 +281,13 @@ install_meerk() {
     libavcodec-dev libavformat-dev libswscale-dev \
     build-essential
 
-    # pip install -U wxPython # TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO !
+    cd /home/equa/Downloads/raspi-init
+    tar -zxf wheels.tar.gz
+    pip install wxPython --no-index --find-links=./wheels
     pip install meerk40t Pillow
 
-    #cd /home/equa/apps
-    #git clone https://github.com/meerk40t/meerk40t
-    #cd meerk40t
+    cd /home/equa/apps
+    git clone https://github.com/meerk40t/meerk40t
 
     cat >> "$DESKTOP/meerk40t.sh" << 'EOF'
 #!/bin/bash
